@@ -119,8 +119,14 @@
 			}
 			for ( var i = 0 ; i < n ; i++){
 				for ( var j = 0 ; j < m ; j++){
-					A[i][j]=parseInt(tabel.rows[i].cells[j].children[0].value);
-					D[i][j]=A[i][j];
+					if(isNaN(parseInt(tabel.rows[i].cells[j].children[0].value))){
+						A[i][j]=0;
+						D[i][j]=A[i][j];
+					}
+					else{
+						A[i][j]=parseInt(tabel.rows[i].cells[j].children[0].value);
+						D[i][j]=A[i][j];
+					}
 				}
 			}
 			for (var i = 0; i < m; i++) {
