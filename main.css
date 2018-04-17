@@ -1,0 +1,82 @@
+#formDiv {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px;
+	max-width: 100px;
+	float:right;
+}
+p{
+	display: inline;
+	margin-top:50%;
+}
+#form1, input[type=text]{
+	width:100%;
+	margin:8px 0;
+	display: inline-block;
+	border-radius: 4px;
+}
+#creaza,#reset{
+	width:100%;
+	background-color: magenta;
+	color:white;
+	border-radius: 4px;
+	cursor: pointer;
+} 
+body{
+	background-image: url("fundal1.jpg");
+
+}
+#matrici{
+	float:left;
+}
+table{
+	display: inline-block;
+	border-left:1px black solid;
+	border-right:1px black solid;
+	border-radius: 4px;
+
+	text-align: center;
+	padding: 10px;
+	
+}
+td{
+	padding: 5px;
+}
+ /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+	border-radius: 5px;
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: red;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+} 

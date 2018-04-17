@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Diagonalizare</title>
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 	<meta charset ="UTF-8">
+ 	<script src="main.js" ></script>
+ 	<link rel="stylesheet" href="main.css">
+</head>
+<body onload="afisare()">
+
+	<div id="myModal" class="modal">
+  		<!-- Modal content -->
+  		<div class="modal-content">
+   	 		<span class="close">&times;</span>
+   	 		<p id="titluModalMatrice">Matricea initiala: </p>
+   	 		<table id="tabelInitial"></table>
+ 	   		<button id="start" onclick="start()">Continua</button>
+ 	 	</div>
+	</div>
+
+	<div id="matrici">
+		<table id="tabU" class="cadruTabel">
+			
+		</table>
+		<p class="inmultire">*</p>
+		<table id="tabA" class="cadruTabel">
+			
+		</table>
+		<p class="inmultire">*</p>
+		<table id="tabV" class="cadruTabel">
+			
+		</table >
+		<p class="egal">=</p>
+		<table id="tabD" class="cadruTabel">
+			
+		</table>
+	</div>
+	<div id="formDiv">
+		<form id="form1">
+			<label for="n">Linii</label> 
+			<input type="text" name="n" id="n">			
+			<label for="m">Coloane</label> 
+			<input type="text" name="m" id="m"><br>
+		</form>
+		<button id="creaza" >Create</button>
+	</div>
+	<script>
+		var A ;
+		var U ;
+		var D ;
+		var V ;
+		var n;
+		var m;
+		var diagonalizabila = true;
+		//new
+
+		var modal = document.getElementById('myModal');
+		var btn = document.getElementById("creaza");
+		var span = document.getElementsByClassName("close")[0];
+
+		btn.onclick = function() {
+			modal.style.display = "block";
+			n = document.getElementById('n').value;
+			m = document.getElementById('m').value;
+			var tabel = document.getElementById('tabelInitial');
+			for (var i = 0 ; i < n ; i++){
+				var rand = tabel.insertRow(i);
+				for ( var j = 0 ; j < m ; j++){
+					var camp = rand.insertCell(j);
+					var ce = document.createElement("INPUT");
+					camp.appendChild(ce);
+				}
+			}
+		}
+		span.onclick = function() {
+			modal.style.display = "none";
+			var tabel = document.getElementById('tabelInitial');
+    		tabel.innerHTML = "";
+		}
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+				var tabel = document.getElementById('tabelInitial');
+    			tabel.innerHTML = "";
+			}
+		}
+
+
+		//old
+		function start(){
+			modal.style.display = "none";
+			n = document.getElementById('n').value;
+			m = document.getElementById('m').value;
+ 			var tabel = document.getElementById('tabelInitial');
+ 			//alert(tabel.rows[0].cells[0].children[0].value);
+			A = new Array(n);
+			U = new Array(n);
+			D = new Array(n);
+			V = new Array(m);
+
+			for ( var p = 0; p < n ; p++){
+				U[p] = new Array(n);
+				A[p] = new Array(m);
+				D[p] = new Array(m);
+			}
+			for ( var p = 0; p < m ; p++){
+				V[p] = new Array(m);
+			}
+			for (var i = 0; i < n; i++) {
+				for (var j = 0; j < n; j++) {
+					if (i == j) {
+						U[i][j] = 1;
+					}
+					else {
+						U[i][j] = 0;
+					}
+				}
+			}
+			for ( var i = 0 ; i < n ; i++){
+				for ( var j = 0 ; j < m ; j++){
+					A[i][j]=parseInt(tabel.rows[i].cells[j].children[0].value);
+					D[i][j]=A[i][j];
+				}
+			}
+			for (var i = 0; i < m; i++) {
+				for (var j = 0; j < m; j++) {
+					if (i == j) {
+						V[i][j] = 1;
+					}
+					else {
+						V[i][j] = 0;
+					}
+				}
+			}
+			//terminat-am cu generatul lor
+			diagonalizeaza();
+			var tU = document.getElementById("tabU");
+			var tA = document.getElementById("tabA");
+			var tV = document.getElementById("tabV");
+			var tD = document.getElementById("tabD");
+			tU.style.setVisibility = "visible";
+			tA.style.setVisibility = "visible";
+			tV.style.setVisibility = "visible";
+			tD.style.setVisibility = "visible";
+
+
+
+			localStorage.setItem("n",n);
+			localStorage.setItem("m",m);
+			for ( var i = 0 ; i < n ; i++){
+				for ( var j = 0 ; j < n ; j++){
+					var cine = "U["+i+"]["+j+"]";
+					localStorage.setItem(cine,U[i][j]);
+				}
+			}
+			for ( var i = 0 ; i < n ; i++){
+				for ( var j = 0 ; j < m ; j++){
+					var cine = "A["+i+"]["+j+"]";
+					localStorage.setItem(cine,A[i][j]);
+				}
+			}
+			for ( var i = 0 ; i < n ; i++){
+				for ( var j = 0 ; j < m ; j++){
+					var cine = "D["+i+"]["+j+"]";
+					localStorage.setItem(cine,D[i][j]);
+				}
+			}
+			for ( var i = 0 ; i < m ; i++){
+				for ( var j = 0 ; j < m ; j++){
+					var cine = "V["+i+"]["+j+"]";
+					localStorage.setItem(cine,V[i][j]);
+				}
+			}
+			location.reload();
+		}
+
+		function Tijo(i, j, x) {
+			for (var a = 0; a < m; a++) {
+				D[i][a] += D[j][a] * x;
+			}
+			for (var a = 0; a < n; a++) {
+				U[i][a] += U[j][a] * x;
+			}
+		}
+		function oTij(i, j, x) {
+			for (var a = 0; a < n; a++) {
+				D[a][j] += D[a][i] * x;
+			}
+			for (var a = 0; a < m; a++) {
+				V[a][j] += V[a][i] * x;
+			}
+		}
+		function Pijo(i, j) {
+			for (var a = 0; a < m; a++) {
+				var tmp = D[i][a];
+				D[i][a] = D[j][a];
+				D[j][a] = tmp;
+			}
+			for (var a = 0; a < n; a++) {
+				var tmp = U[i][a]; 
+				U[i][a] = U[j][a];
+				U[j][a] = tmp;
+			}
+		}
+		function oPij(i, j) {
+			for (var a = 0; a < n; a++) {
+				var tmp = D[a][j];
+				D[a][j] = D[a][i];
+				D[a][i] = tmp;
+			}
+			for (var a = 0; a < m; a++) {
+				var tmp = V[a][j];
+				V[a][j] = V[a][i];
+				V[a][i] = tmp;
+			}
+		}
+
+		function divide(k) {
+			if (D[k][k] == 0) {
+				return 3;
+			}
+			else {
+				for (var i = k; i < n; i++) {
+					if (D[i][k] % D[k][k] != 0) {
+						return 1;
+					}
+				}
+				for (var j = k; j < m; j++) {
+					if (D[k][j] % D[k][k] != 0) {
+						return 2;
+					}
+				}
+				return 0;
+			}
+
+		}//1 nu divide pe coloana , 2 nu divide pe linie , 3 e 0 , 0 ok
+
+		function min(k) {
+			var is = k;
+			var js = k;
+			var min = D[k][k];
+			if (min == 0) {
+				min = 94906265; // max int 
+			}
+
+			for (var i = k; i < n; i++) {
+				for (var j = k; j < m; j++) {
+					if (min * min > D[i][j] * D[i][j] && D[i][j] != 0 && min * min != D[i][j] * D[i][j]) {
+						min = D[i][j];
+						is = i;
+						js = j;
+					}
+				}
+			}
+			if (is == k && js != k) {
+				oPij(k, js);
+			}
+			if (is != k && js == k) {
+				Pijo(k, is);
+			}
+			if (is != k && js != k) {
+				oPij(k, js);
+				Pijo(is, k);
+			}
+		}
+
+		function minL(k) {
+			var min;
+			var js;
+			var ct = 1;
+			if (D[k][k + 1] % D[k][k] == 0) {
+				while (D[k][k + ct] % D[k][k] == 0 && k + ct < m) {
+					ct++;
+				}
+				min = D[k][k + ct] % D[k][k];
+				js = k + ct;
+			}
+			else {
+				min = D[k][k + 1] % D[k][k];
+				js = k + 1;
+			}
+			for (var j = k + 1; j < m; j++) {
+				if (min < D[k][j] % D[k][k] && D[k][j] != 0 && D[k][j] % D[k][k] != 0) {
+					min = D[k][j] % D[k][k];
+					js = j;
+				}
+			}
+			return js;
+		}
+		function minC(k) {
+			var min;
+			var is;
+			var ct = 1;
+			if (D[k + ct][k] % D[k][k] == 0) {
+				while (D[k + ct][k] % D[k][k] == 0 && k + ct < m) {
+					ct++;
+				}
+				min = D[k][k + ct] % D[k][k];
+				is = k + ct;
+			}
+			else {
+				min = D[k + 1][k] % D[k][k];
+				is = k + 1;
+			}
+			for (var i = k + 1; i < n; i++) {
+				if (min < D[i][k] % D[k][k] && D[i][k] != 0 && D[i][k] % D[k][k] != 0) {
+					min = D[i][k] % D[k][k];
+					is = i;
+				}
+			}
+			return is;
+		}
+
+		function proceseasa( k) {
+			for (var i = k + 1; i < n; i++) {
+				Tijo(i, k, ( Math.floor(D[i][k] / D[k][k]))*(-1));
+			}
+			for (var j = k + 1; j < m; j++) {
+				oTij(k, j, ( Math.floor(D[k][j] / D[k][k]))*(-1));
+			}
+		}
+
+		function diagonalizeaza() {
+			if (diagonalizabila == false) {
+				alert( "Matrica este deja in forma diagonalizata");
+				return 1;
+			}
+			else {
+				diagonalizabila = false;
+				var stop = n;
+				if (m < n) {
+					stop = m;
+				}
+				var caz = 11;
+				for (var k = 0; k < stop; k++) {
+					min(k);
+					caz = divide(k);
+					switch (caz) {
+					case 0: {
+						proceseasa(k);
+						break;
+					}
+					case 1: { //coloana
+						var i = minC(k);
+						Tijo(i, k, ( Math.floor(D[i][k] / D[k][k]))*(-1));
+						k--;
+						break;
+					}
+					case 2: {//linie
+						var j = minL(k);
+						oTij(k, j, ( Math.floor(D[k][j] / D[k][k]))*(-1));
+						k--;
+						break;
+					}
+					case 3: {
+						return 0;
+						break;
+					}
+					}
+				}
+				return 0;
+			}
+		}
+		function afisare(){
+			var tU = document.getElementById("tabU");
+			var tA = document.getElementById("tabA");
+			var tV = document.getElementById("tabV");
+			var tD = document.getElementById("tabD");
+
+			var n = localStorage.getItem("n");
+			var m = localStorage.getItem("m");
+
+			for ( var i = 0 ; i < n ; i ++){
+				var rand = tU.insertRow(i);
+				for ( var j = 0 ; j < n ; j++){
+					var celula = rand.insertCell(j);
+					var ce = "U["+i+"]["+j+"]";
+					var txt = localStorage.getItem(ce);
+					var nr = document.createTextNode(txt);
+					celula.appendChild(nr);
+				}
+			}
+			for ( var i = 0 ; i < n ; i ++){
+				var rand = tA.insertRow(i);
+				for ( var j = 0 ; j < m ; j++){
+					var celula = rand.insertCell(j);
+					var ce = "A["+i+"]["+j+"]";
+					var txt = localStorage.getItem(ce);
+					var nr = document.createTextNode(txt);
+					celula.appendChild(nr);
+				}
+			}
+			for ( var i = 0 ; i < m ; i ++){
+				var rand = tV.insertRow(i);
+				for ( var j = 0 ; j < m ; j++){
+					var celula = rand.insertCell(j);
+					var ce = "V["+i+"]["+j+"]";
+					var txt = localStorage.getItem(ce);
+					var nr = document.createTextNode(txt);
+					celula.appendChild(nr);
+				}
+			}
+			for ( var i = 0 ; i < n ; i ++){
+				var rand = tD.insertRow(i);
+				for ( var j = 0 ; j < m ; j++){
+					var celula = rand.insertCell(j);
+					var ce = "D["+i+"]["+j+"]";
+					var txt = localStorage.getItem(ce);
+					var nr = document.createTextNode(txt);
+					celula.appendChild(nr);
+				}
+			}
+		}
+		function re(){
+			localStorage.clear();
+			var tU = document.getElementById("tabU");
+			var tA = document.getElementById("tabA");
+			var tV = document.getElementById("tabV");
+			var tD = document.getElementById("tabD");
+			tU.style.setVisibility = "hidden";
+			tA.style.setVisibility = "hidden";
+			tV.style.setVisibility = "hidden";
+			tD.style.setVisibility = "hidden";
+
+		}
+	</script>
+	
+</body>
+</html>
