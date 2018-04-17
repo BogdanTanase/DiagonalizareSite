@@ -30,18 +30,37 @@ body{
 	float:left;
 }
 table{
-	display: inline-block;
-	border-left:1px black solid;
-	border-right:1px black solid;
-	border-radius: 4px;
 
+	border-left:2px black solid;
+	border-right:2px black solid;
+	border-radius: 4px;
+	background-color: white;
 	text-align: center;
 	padding: 10px;
-	
 }
 td{
 	padding: 5px;
 }
+.cadruTabel{
+	float:left;
+	display: inline-block;
+	padding: 4px;
+	border: 1px solid black;
+	border-radius: 5px;
+	background-color: white;
+	margin-top: 0px;
+}
+.inmultire, .egal{
+	margin:3.5% 1px;
+	float:left;
+	display: inline-block;
+	padding: 4px;
+	border: 1px solid black;
+	border-radius: 5px;
+	background-color: white;
+}
+
+
  /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
