@@ -5,10 +5,6 @@
 	max-width: 100px;
 	float:right;
 }
-p{
-	display: inline;
-	margin-top:50%;
-}
 #form1, input[type=text]{
 	width:100%;
 	margin:8px 0;
@@ -22,6 +18,9 @@ p{
 	border-radius: 4px;
 	cursor: pointer;
 } 
+.dimensiune{
+	width: 100%;
+}
 body{
 	background-image: url("fundal1.jpg");
 
@@ -51,7 +50,7 @@ td{
 	margin-top: 0px;
 }
 .inmultire, .egal{
-	margin:3.5% 1px;
+	margin:8% 1px;
 	float:left;
 	display: inline-block;
 	padding: 4px;
@@ -59,7 +58,12 @@ td{
 	border-radius: 5px;
 	background-color: white;
 }
-
+p{
+	text-align: center;
+	margin:0;
+	padding: 1px;
+	border:0;
+}
 
  /* The Modal (background) */
 .modal {
@@ -99,3 +103,29 @@ td{
     text-decoration: none;
     cursor: pointer;
 } 
+
+
+/* tooltip */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltipText {
+    visibility: hidden;
+    width: 20px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltipText {
+    visibility: visible;
+}
+/*end of tooltip */

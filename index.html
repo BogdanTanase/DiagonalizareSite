@@ -20,20 +20,20 @@
 	</div>
 
 	<div id="matrici">
-		<div class="cadruTabel"><table id="tabU" ></table></div>
+		<div class="cadruTabel tooltip"><table id="tabU" ></table><span class="tooltipText">U</span></div>
 		<div class="inmultire"><p>*</p></div>
-		<div class="cadruTabel"><table id="tabA" ></table></div>
+		<div class="cadruTabel tooltip"><table id="tabA" ></table><span class="tooltipText">A</span></div>
 		<div class="inmultire"><p>*</p></div>
-		<div class="cadruTabel"><table id="tabV" ></table ></div>
+		<div class="cadruTabel tooltip"><table id="tabV" ></table><span class="tooltipText">V</span></div>
 		<div class="egal"><p>=</p></div>
-		<div class="cadruTabel"><table id="tabD" ></table></div>
+		<div class="cadruTabel tooltip"><table id="tabD" ></table><span class="tooltipText">D</span></div>
 	</div>
 	<div id="formDiv">
 		<form id="form1">
 			<label for="n">Linii</label> 
-			<input type="text" name="n" id="n">			
+			<input class="dimensiune" type="number" name="n" id="n" min="1" >			
 			<label for="m">Coloane</label> 
-			<input type="text" name="m" id="m"><br>
+			<input class="dimensiune" type="number" name="m" id="m" min="1" ><br>
 		</form>
 		<button id="creaza" >Create</button>
 	</div>
@@ -61,6 +61,7 @@
 				for ( var j = 0 ; j < m ; j++){
 					var camp = rand.insertCell(j);
 					var ce = document.createElement("INPUT");
+					ce.setAttribute("type","number");
 					camp.appendChild(ce);
 				}
 			}
