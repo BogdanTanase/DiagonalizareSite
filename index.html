@@ -54,7 +54,13 @@
 		btn.onclick = function() {
 			modal.style.display = "block";
 			n = document.getElementById('n').value;
+			if ( n < 1 || isNaN(n)){
+				n = 1;
+			}
 			m = document.getElementById('m').value;
+			if ( m < 1 || isNaN(m)){
+				m = 1;
+			}
 			var tabel = document.getElementById('tabelInitial');
 			for (var i = 0 ; i < n ; i++){
 				var rand = tabel.insertRow(i);
@@ -84,9 +90,14 @@
 		function start(){
 			modal.style.display = "none";
 			n = document.getElementById('n').value;
+			if ( n < 1 || isNaN(n)){
+				n = 1;
+			}
 			m = document.getElementById('m').value;
+			if ( m < 1 || isNaN(m)){
+				m = 1;
+			}
  			var tabel = document.getElementById('tabelInitial');
- 			//alert(tabel.rows[0].cells[0].children[0].value);
 			A = new Array(n);
 			U = new Array(n);
 			D = new Array(n);
